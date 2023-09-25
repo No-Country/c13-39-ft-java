@@ -1,14 +1,11 @@
-package com.nicoz.NZWanderlust.Services;
+package com.nicoz.NZWanderlust.Entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Data
 @Entity
 @Table(name = "user")
@@ -33,9 +30,13 @@ public class User {
     @JoinColumn(name = "userLevel")
     private UserLevel userLevel;
 
-    @OneToMany(mappedBy = "user")
-    private List<TicketTravelBuyer> ticketTravelBuyerList;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.DETACH)
+    private List<TicketTravelBuyer> ticketTravelBuyerList = new ArrayList<>();
 
-
-
+    //break with User foreign key in TicketTravelBuyer
+    public void iterateAndModifyTickets() {
+        for (TicketTravelBuyer ticket : ticketTravelBuyerList) {
+            ticket.setUser(null);
+        }
+    }
 }

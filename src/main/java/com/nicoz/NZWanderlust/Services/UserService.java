@@ -8,6 +8,7 @@ import com.nicoz.NZWanderlust.NewUserRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +19,7 @@ public class UserService {
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
+
     }
 
     public List<User> getUsers() {
@@ -45,6 +47,9 @@ public class UserService {
 
     public ResponseEntity<User> updateUser(Long id, User userDetails) {
         Optional<User> optionalUser = userRepository.findById(id);
+        if (optionalUser.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         User user = optionalUser.get();
         user.setUsername(userDetails.getUsername());
         user.setPassword(userDetails.getPassword());
@@ -56,18 +61,28 @@ public class UserService {
         User updateUser = userRepository.save(user);
         return new ResponseEntity<>(updateUser, HttpStatus.OK);
     }
-
-    public void delete(Long id) {
-        /*Optional<User> optionalUser = userRepository.findById(id);
-        if(optionalUser.isEmpty()){
-            return null;
+    @Transactional
+    public ResponseEntity<?> delete(Long id) {
+        Optional<User> optionalUser =    userRepository.findById(id);
+        if (optionalUser.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         User user = optionalUser.get();
-        if(userHasActiveTickets(user)){ userRepository.deleteById(id); }
-        return null;*/
+        if(userHasActiveTickets(user)){
+            userRepository.deleteById(id);
+            return ResponseEntity.ok().build();
+        }
+        user.iterateAndModifyTickets();
+        System.out.println(user.getTicketTravelBuyerList());
         userRepository.deleteById(id);
+        System.out.println("USER is deleted");
+        return ResponseEntity.ok().build();
     }
 
+    private boolean userHasActiveTickets(User user) {
+        if(user.getTicketTravelBuyerList().isEmpty()){ return true; }
+        return false;
+    }
 
     public User updateOnlyUser(Long id, User userDetails) {
         Optional<User> optionalUser = userRepository.findById(id);

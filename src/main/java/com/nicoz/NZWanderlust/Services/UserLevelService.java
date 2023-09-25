@@ -57,4 +57,17 @@ public class UserLevelService {
 		return new ResponseEntity<>(userLevelUpdate,HttpStatus.OK);
 
 	}
+	public UserLevel updateOnlyUserLevel(Long id, UserLevel userLevel)  { /* */
+		Optional<UserLevel> optionalUserLevel = userLevelRepository.findById(id);
+		if(!optionalUserLevel.isPresent()){
+			return null;
+		}
+		UserLevel userLevelToUpdate = optionalUserLevel.get();
+		userLevelToUpdate.setLevelName(userLevel.getLevelName());
+		userLevelToUpdate.setNumberOfTickets(userLevel.getNumberOfTickets());
+		userLevelToUpdate.setProfit(userLevel.getProfit());
+		UserLevel userLevelUpdate = userLevelRepository.save(userLevelToUpdate);
+		return userLevelUpdate;
+
+	}
 }

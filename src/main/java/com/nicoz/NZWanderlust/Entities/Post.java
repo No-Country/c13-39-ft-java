@@ -1,4 +1,4 @@
-package com.nicoz.NZWanderlust.Services;
+package com.nicoz.NZWanderlust.Entities;
 
 import java.util.List;
 

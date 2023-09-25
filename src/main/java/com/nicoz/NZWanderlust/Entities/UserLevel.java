@@ -1,4 +1,4 @@
-package com.nicoz.NZWanderlust.Services;
+package com.nicoz.NZWanderlust.Entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
@@ -11,7 +11,7 @@ public class UserLevel {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long userLevelId;
 	private String levelName;	
-	private Integer numberOfTickets;
+	private Integer numberOfTickets = 0; /* */
 	private Double profit;
 	@OneToOne(mappedBy = "userLevel", cascade = CascadeType.ALL)
 	@JsonBackReference

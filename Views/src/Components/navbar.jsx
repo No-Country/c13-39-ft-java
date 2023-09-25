@@ -1,24 +1,30 @@
 import React from 'react'
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
+import Container from 'react-bootstrap/Container';
+import Navbar from 'react-bootstrap/Navbar';
 
-function Navbar() {
+
+function TextLinkExample() {
   return (
-    <div className="Navbar-Container" class="bg-zinc-300">
-        <div className="Navbar-Top" class="top-0  w-full h-20 flex justify-between px-8 items-center ">
-            <div className="Navbar-Top_Left">
-            <Link to="/">WANDERLUST</Link>
-            </div>
-            <div className="Navbar-Top_Right" class="flex justify-end">
-                <div className="Navbar-Top_Right__SignIn" class="px-8">
-                <Link to="/signIn">Iniciar Sesión</Link>
-                </div>
-                <div className="Navbar-Top_Right__SignUp" class="px-8">
-                <Link to="/signUp">Registrarme</Link>
-                </div>
-            </div>
-        </div>
-    </div>
-  )
+    <Navbar className="bg-body-tertiary">
+            <Link
+        to="/"
+        className="link-logo"
+        aria-label="Wanderlust Travel"
+      ><img src="/public/logotexto.png" alt='Wanderlust Travel' />
+      </Link>
+      <Container>
+
+
+        <Navbar.Toggle />
+        <Navbar.Collapse className="justify-content-end">
+          <Navbar.Text className="usuario-logueado">
+            Hola de nuevo: <a href="#login">Juan Pérez</a>
+          </Navbar.Text>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
+  );
 }
 
-export default Navbar
+export default TextLinkExample;

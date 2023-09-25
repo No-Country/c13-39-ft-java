@@ -1,10 +1,8 @@
-package com.nicoz.NZWanderlust.Services;
-
+package com.nicoz.NZWanderlust.Entities;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.time.LocalDate;
 
 @Data
 @Entity
@@ -14,7 +12,7 @@ public class TicketTravelBuyer {
     private Long ticketTravelBuyerId;
     @ManyToOne
     private Post post;
-    @ManyToOne()
+    @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "userId")
     @JsonBackReference
     private User user;

@@ -5,6 +5,7 @@ import com.nicoz.NZWanderlust.Entities.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+
 @AllArgsConstructor
 @Data
 public class NewTicketTravelBuyerRequest {
